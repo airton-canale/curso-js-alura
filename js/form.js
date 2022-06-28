@@ -1,81 +1,69 @@
-var botaoAdicionar = document.querySelector("#adicionar-paciente")
-botaoAdicionar.addEventListener("click",function(event){
-  event.preventDefault()
+var botaoAdicionar = document.querySelector("#adicionar-paciente");
+botaoAdicionar.addEventListener("click", function (event) {
+  event.preventDefault();
 
-  var form = document.querySelector("#form-adiciona")
-  var paciente = adicionarPacienteFormulario(form)
-  
-  var pacienteTr = montaTr(paciente)
+  var form = document.querySelector("#form-adiciona");
+  var paciente = adicionarPacienteFormulario(form);
 
-  var tabela = document.querySelector('#tabela-pacientes')
+  var pacienteTr = montaTr(paciente);
 
-  tabela.appendChild(pacienteTr)
+  var tabela = document.querySelector("#tabela-pacientes");
 
-})
-  
-  function adicionarPacienteFormulario(form){
+  tabela.appendChild(pacienteTr);
+  form.reset();
+});
 
-    var paciente = {
+function adicionarPacienteFormulario(form) {
+  var paciente = {
     nome: form.nome.value,
-    peso: form.peso.value, 
-    altura: form.altura.value,  
+    peso: form.peso.value,
+    altura: form.altura.value,
     gordura: form.gordura.value,
-    imc: calculaImc(form.peso.value, form.altura.value)
-  }
-    return paciente
-  }
-  
-  function montaTr(paciente){
-    
-    var pacienteTr = document.createElement("tr")
-    var nomeTd = document.createElement("td")
-    var pesoTd = document.createElement("td")
-    var alturaTd = document.createElement("td")
-    var gorduraTd = document.createElement("td")
-    var imcTd = document.createElement("td")
+    imc: calculaImc(form.peso.value, form.altura.value),
+  };
+  return paciente;
+}
 
-    nomeTd.textContent = paciente.nome
-    pesoTd.textContent = paciente.peso
-    alturaTd.textContent = paciente.altura  
-    gorduraTd.textContent = paciente.gordura
-    imcTd.textContent = paciente.imc
-    
-    pacienteTr.appendChild(nomeTd)
-    pacienteTr.appendChild(pesoTd)
-    pacienteTr.appendChild(alturaTd)
-    pacienteTr.appendChild(gorduraTd)
-    pacienteTr.appendChild(imcTd)
+function montaTr({ nome, peso, altura, gordura, imc }) {
+  var pacienteTr = document.createElement("tr");
+  pacienteTr.classList.add("paciente");
 
-    return pacienteTr
-  }
-  
-  function textoPesoEalturaPaciente({peso}){
-    var peso = validaPesoIndex(peso)
-    if (peso) return (
-      pacienteTr.appendChild(peso)
-    )
-    else peso.textContent = `Peso ${peso} Inválido!`
-    
-  }
-  
-  
-  // function textoAlturaPaciente({altura}){
-  //   var alturaOk = validaAlturaIndex(altura)
-  //   var alturaTd = altura
-  //   if (alturaOk) return(
-  //     alturaTd.textContent = `Altura ${altura} Inválida!`
-  //   )
-  //   else var alturaTd = document.createElement("td")
+  pacienteTr.appendChild(montaTd(nome, "info-nome"));
+  pacienteTr.appendChild(montaTd(textoPesoPaciente(peso), "info-peso"));
+  pacienteTr.appendChild(montaTd(textoAlturaPaciente(altura), "info-altura"));
+  pacienteTr.appendChild(montaTd(gordura, "info-gordura"));
+  pacienteTr.appendChild(
+    montaTd(textoImcPaciente(peso, altura, imc), "info-imc")
+  );
 
-  // }
-  // var imcOk = alturaOk && pesoOk
+  return pacienteTr;
+}
 
-  // function textoImcPaciente({peso, altura}){
-  //   var imcOk = calculaImc(peso, altura)
-  //   if (imcOk) return(
-  //     imcTd.textContent = `IMC inválido!` 
-  //   )
-  //   else var imcTd = document.createElement ("td")
-  // }
+function textoPesoPaciente(peso) {
+  var pesoOk = validaPesoIndex(peso);
+  if (pesoOk) return peso;
+  return `Peso ${peso} Inválido!`;
+}
 
+function textoAlturaPaciente(altura) {
+  var alturaOk = validaAlturaIndex(altura);
+  if (alturaOk) return altura;
+  return `Altura ${altura} Inválida!`;
+}
 
+function textoImcPaciente(peso, altura, imc) {
+  var pesoOk = validaPesoIndex(peso);
+  var alturaOk = validaAlturaIndex(altura);
+  var imc = peso / (altura * altura);
+
+  if (alturaOk && pesoOk) return imc;
+  console.log({ peso, altura, imc });
+  return `IMC ${imc.toFixed(2)} Inválido!`;
+}
+
+function montaTd(dado, classe) {
+  var td = document.createElement("td");
+  td.textContent = dado;
+  td.classList = classe;
+  return td;
+}
