@@ -15,8 +15,8 @@ var altura = tdAltura.textContent
 
 var tdImc = paciente.querySelector(".info-imc");
 
-var pesoOk = validaPeso(peso)
-var alturaOk = validaAltura(altura)
+var pesoOk = validaPesoIndex(peso)
+var alturaOk = validaAlturaIndex(altura)
 
 if (alturaOk && pesoOk){
   var imc = peso / (altura * altura);
@@ -56,12 +56,12 @@ function calculaImc(peso,altura){
   return imc.toFixed(2)
 }
 
-function validaPeso(peso){
+function validaPesoIndex(peso){
   return peso >=0 && peso <= 200
   }
   
 
-  function validaAltura(altura){
+  function validaAlturaIndex(altura){
     return altura >= 0 && altura < 3
     }
   
