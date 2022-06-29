@@ -7,6 +7,15 @@ botaoAdicionar.addEventListener("click", function (event) {
 
   var pacienteTr = montaTr(paciente);
 
+
+  var pesoOk = validaPesoIndex(peso);
+  if(!pesoOk){
+    console.log("paciente invalido")
+    // var mensagemErro = document.querySelector("#mensagem-erro")
+    // mensagemErro.textContent = 
+    return;
+  }
+
   var tabela = document.querySelector("#tabela-pacientes");
 
   tabela.appendChild(pacienteTr);
@@ -29,35 +38,35 @@ function montaTr({ nome, peso, altura, gordura, imc }) {
   pacienteTr.classList.add("paciente");
 
   pacienteTr.appendChild(montaTd(nome, "info-nome"));
-  pacienteTr.appendChild(montaTd(textoPesoPaciente(peso), "info-peso"));
-  pacienteTr.appendChild(montaTd(textoAlturaPaciente(altura), "info-altura"));
+  pacienteTr.appendChild(montaTd(validaPesoPaciente(peso), "info-peso"));
+  pacienteTr.appendChild(montaTd(validaAlturaPaciente(altura), "info-altura"));
   pacienteTr.appendChild(montaTd(gordura, "info-gordura"));
-  pacienteTr.appendChild(
-    montaTd(textoImcPaciente(peso, altura, imc), "info-imc")
-  );
+  pacienteTr.appendChild(montaTd(validaImcPaciente(peso, altura, imc), "info-imc"));
 
   return pacienteTr;
 }
 
-function textoPesoPaciente(peso) {
+function validaPesoPaciente(peso) {
   var pesoOk = validaPesoIndex(peso);
-  if (pesoOk) return peso;
-  return `Peso ${peso} Inválido!`;
+  if (pesoOk) return peso
+  return "O peso eh invalido"
+  // console.log("paciente invalido")
+  // if (pesoOk) return peso;
+  // return `Peso ${peso} Inválido!`;
 }
 
-function textoAlturaPaciente(altura) {
+function validaAlturaPaciente(altura) {
   var alturaOk = validaAlturaIndex(altura);
   if (alturaOk) return altura;
   return `Altura ${altura} Inválida!`;
 }
 
-function textoImcPaciente(peso, altura, imc) {
+function validaImcPaciente(peso, altura, imc,) {
   var pesoOk = validaPesoIndex(peso);
   var alturaOk = validaAlturaIndex(altura);
   var imc = peso / (altura * altura);
-
+  
   if (alturaOk && pesoOk) return imc;
-  console.log({ peso, altura, imc });
   return `IMC ${imc.toFixed(2)} Inválido!`;
 }
 
