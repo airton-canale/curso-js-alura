@@ -121,11 +121,14 @@ button:active{
 button[disabled=disabled], button:disabled {
     background-color: gray;
 	border-color: darkgray;
-
 }
 
-.adicionar-paciente{
+adicionar-paciente{
     margin-top: 30px;
+}
+
+#buscar-pacientes{
+    margin-top: 3000px;
 }
 
 .campo-invalido{
