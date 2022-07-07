@@ -4,9 +4,16 @@ botaoAdicionar.addEventListener("click", function (event) {
 
   var form = document.querySelector("#form-adiciona");
   var paciente = adicionarPacienteFormulario(form);
-  
+
+  var pacienteTr = montaTr(paciente);
   
   var erros = validaPaciente(paciente);
+  if (erros.length > 0) return exibeMensagensDeErro(erros);
+
+  var tabela = document.querySelector("#tabela-pacientes");
+  tabela.appendChild(pacienteTr);
+  form.reset();
+})
 
   // var erroPeso = !validaPesoIndex(paciente.peso)
   // var erroAltura = !validaAlturaIndex(paciente.altura)
@@ -28,12 +35,9 @@ botaoAdicionar.addEventListener("click", function (event) {
   // }
 
 
-  adicionaPacienteNaTabela(paciente)
+  // adicionaPacienteNaTabela(paciente)
 
   
-  if (erros.length > 0) return exibeMensagensDeErro(erros);
-  form.reset();
-});
 
 function adicionaPacienteNaTabela(paciente){
   var pacienteTr = montaTr(paciente);
